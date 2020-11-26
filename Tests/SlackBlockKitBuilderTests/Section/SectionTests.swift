@@ -66,7 +66,7 @@ final class SectionsTests: XCTestCase {
     func testSections_ShouldEncodeCorrectly_Accessories() {
         let section = Section {
             PlainText(text: "Field", emoji: true)
-        } accessories: {
+        } accessory: {
             Button(url: "http://github.com") {
                 PlainText(text: "Github", emoji: false)
             }
@@ -79,17 +79,15 @@ final class SectionsTests: XCTestCase {
                     "text": "Field",
                     "emoji": true
                 },
-                "accessory": [
-                    {
-                        "type": "button",
-                        "text": {
-                            "type": "plain_text",
-                            "text": "Github",
-                            "emoji": false
-                        },
-                        "url": "http:\\/\\/github.com"
-                    }
-                ]
+                "accessory": {
+                    "type": "button",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "Github",
+                        "emoji": false
+                    },
+                    "url": "http:\\/\\/github.com"
+                }
             }
         """.filter { !$0.isWhitespace }
         

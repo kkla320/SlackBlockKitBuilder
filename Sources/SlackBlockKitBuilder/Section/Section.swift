@@ -9,16 +9,16 @@ import Foundation
 
 public struct Section: BlockElement, Encodable {
     private var element: AnySectionElement
-    private var accessories: [AnyElement]
+    private var accessory: AnyElement?
     
     public init(@SectionBuilder _ content: () -> AnySectionElement) {
         self.element = content()
-        self.accessories = []
+        self.accessory = nil
     }
     
-    public init(@SectionBuilder _ content: () -> AnySectionElement, @AccessoryBuilder accessories: () -> [AnyElement]) {
+    public init(@SectionBuilder _ content: () -> AnySectionElement, @AccessoryBuilder accessory: () -> AnyElement) {
         self.element = content()
-        self.accessories = accessories()
+        self.accessory = accessory()
     }
     
     public func encode(to encoder: Encoder) throws {
@@ -26,9 +26,7 @@ public struct Section: BlockElement, Encodable {
         
         try container.encode("section", forKey: .type)
         try container.encode(element, forKey: element.codingKeyForSection)
-        if accessories.count > 0 {
-            try container.encode(accessories, forKey: .accessory)
-        }
+        try container.encodeIfPresent(accessory, forKey: .accessory)
     }
     
     public enum CodingKeys: CodingKey {

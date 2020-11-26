@@ -9,7 +9,7 @@ import Foundation
 
 @_functionBuilder
 public struct AccessoryBuilder {
-    public static func buildBlock(_ section: AccessoryElement...) -> [AnyElement] {
-        return section.map { $0.eraseToAnyElement() }
+    public static func buildBlock(_ element: AccessoryElement) -> AnyElement {
+        return element.eraseToAnyElement()
     }
 }
