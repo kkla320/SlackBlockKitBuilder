@@ -7,13 +7,13 @@
 
 import Foundation
 
-protocol BlockElement: Element {
+public protocol BlockElement: Element {
     
 }
 
 @_functionBuilder
-struct BlockBuilder {
-  static func buildBlock(_ blocks: BlockElement...) -> [AnyElement] {
+public struct BlockBuilder {
+  public static func buildBlock(_ blocks: BlockElement...) -> [AnyElement] {
     return blocks.map { $0.eraseToAnyElement() }
   }
 }
