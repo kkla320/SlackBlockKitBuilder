@@ -13,9 +13,35 @@ public protocol BlockElement: Element {
 
 @_functionBuilder
 public struct BlockBuilder {
-  public static func buildBlock(_ blocks: BlockElement...) -> [AnyElement] {
-    return blocks.map { $0.eraseToAnyElement() }
-  }
+    public static func buildFinalResult(_ parts: [BlockElement]...) -> [AnyElement] {
+        return parts
+            .flatMap { $0 }
+            .map { $0.eraseToAnyElement() }
+    }
+    
+    public static func buildBlock(_ blocks: [BlockElement]...) -> [BlockElement] {
+        return blocks.flatMap { $0 }
+    }
+    
+    public static func buildExpression(_ block: BlockElement) -> [BlockElement] {
+        return [block]
+    }
+    
+    public static func buildExpression<Element>(_ forEach: ForEach<Element>) -> [BlockElement] where Element: BlockElement {
+        return forEach.elements
+    }
+    
+    public static func buildIf(_ blocks: [BlockElement]?) -> [BlockElement] {
+        return blocks ?? []
+    }
+    
+    public static func buildEither(first: [BlockElement]) -> [BlockElement] {
+        return first
+    }
+
+    public static func buildEither(second: [BlockElement]) -> [BlockElement] {
+        return second
+    }
 }
 
 public struct Message: Encodable {
