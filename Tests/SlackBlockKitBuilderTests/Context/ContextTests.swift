@@ -9,67 +9,48 @@ import XCTest
 import SlackBlockKitBuilder
 
 final class ContextTests: XCTestCase {
-    func testContext_ShouldEncodeCorrectly() {
+    func testContext() {
         let context = Context {
             PlainText(text: "Field", emoji: false)
         }
-        let jsonResult = """
-            {
-                "type": "context",
-                "elements": [
-                    {
-                        "type": "plain_text",
-                        "text": "Field",
-                        "emoji": false
-                    }
-                ]
-            }
-        """.filter { !$0.isWhitespace }
         
-        do {
-            let encodingResult = try JSONEncoder().encode(context)
-            let encodedJson = String(bytes: encodingResult, encoding: .utf8)
-            
-            XCTAssertEqual(encodedJson, jsonResult)
-        } catch let error {
-            XCTFail("Encoding failed with error \(error.localizedDescription)")
-        }
+        XCTAssertEncodedStructure(encodable: context, structure: [
+            "type": "context",
+            "elements": [
+                [
+                    "type": "plain_text",
+                    "text": "Field",
+                    "emoji": false
+                ]
+            ]
+        ])
     }
     
-    func testContext_ShouldEncodeCorrectly_MixedFields() {
+    func testContext_MixedFields() {
         let context = Context {
             PlainText(text: "Field", emoji: false)
-            Markdown(text: "*Cat*")
+            Markdown(text: "*Cat*", verbatim: false)
         }
-        let jsonResult = """
-            {
-                "type": "context",
-                "elements": [
-                    {
-                        "type": "plain_text",
-                        "text": "Field",
-                        "emoji": false
-                    },
-                    {
-                        "type": "mrkdwn",
-                        "text": "*Cat*"
-                    }
-                ]
-            }
-        """.filter { !$0.isWhitespace }
         
-        do {
-            let encodingResult = try JSONEncoder().encode(context)
-            let encodedJson = String(bytes: encodingResult, encoding: .utf8)
-            
-            XCTAssertEqual(encodedJson, jsonResult)
-        } catch let error {
-            XCTFail("Encoding failed with error \(error.localizedDescription)")
-        }
+        XCTAssertEncodedStructure(encodable: context, structure: [
+            "type": "context",
+            "elements": [
+                [
+                    "type": "plain_text",
+                    "text": "Field",
+                    "emoji": false
+                ],
+                [
+                    "type": "mrkdwn",
+                    "text": "*Cat*",
+                    "verbatim": false
+                ]
+            ]
+        ])
     }
 
     static var allTests = [
-        ("testContext_ShouldEncodeCorrectly", testContext_ShouldEncodeCorrectly),
-        ("testContext_ShouldEncodeCorrectly_MixedFields", testContext_ShouldEncodeCorrectly_MixedFields)
+        ("testContext", testContext),
+        ("testContext_MixedFields", testContext_MixedFields)
     ]
 }

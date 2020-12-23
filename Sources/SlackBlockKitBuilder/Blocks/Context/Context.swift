@@ -2,19 +2,19 @@
 //  File.swift
 //  
 //
-//  Created by Kevin Klaebe on 26.11.20.
+//  Created by Kevin Klaebe on 25.11.20.
 //
 
 import Foundation
 
-public struct Actions: BlockElement {
-    private var elements: [Element]
+public struct Context: BlockElement {
+    private var elements: [ContextElement]
     
     public var type: ElementType {
-        return .actions
+        return .context
     }
     
-    public init(@ActionsBuilder _ content: () -> [Element]) {
+    public init(@ContextBuilder _ content: () -> [ContextElement]) {
         self.elements = content()
     }
     
@@ -31,7 +31,7 @@ public struct Actions: BlockElement {
 }
 
 extension ElementType {
-    static var actions: ElementType {
-        return ElementType(type: "actions")
+    static var context: ElementType {
+        return ElementType(type: "context")
     }
 }

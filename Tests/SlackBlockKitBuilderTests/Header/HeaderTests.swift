@@ -9,32 +9,22 @@ import XCTest
 import SlackBlockKitBuilder
 
 final class HeaderTests: XCTestCase {
-    func testHeader_ShouldEncodeCorrectly() {
+    func testHeader() {
         let header = Header {
-            PlainText(text: "Github", emoji: true)
+            PlainText(text: "Text", emoji: false)
         }
-        let jsonResult = """
-            {
-                "type": "header",
-                "text": {
-                    "type": "plain_text",
-                    "text": "Github",
-                    "emoji": true
-                }
-            }
-        """.filter { !$0.isWhitespace }
         
-        do {
-            let encodingResult = try JSONEncoder().encode(header)
-            let encodedJson = String(bytes: encodingResult, encoding: .utf8)
-            
-            XCTAssertEqual(encodedJson, jsonResult)
-        } catch let error {
-            XCTFail("Encoding failed with error \(error.localizedDescription)")
-        }
+        XCTAssertEncodedStructure(encodable: header, structure: [
+            "type": "header",
+            "text": [
+                "type": "plain_text",
+                "text": "Text",
+                "emoji": false
+            ]
+        ])
     }
 
     static var allTests = [
-        ("testHeader_ShouldEncodeCorrectly", testHeader_ShouldEncodeCorrectly),
+        ("testHeader", testHeader),
     ]
 }

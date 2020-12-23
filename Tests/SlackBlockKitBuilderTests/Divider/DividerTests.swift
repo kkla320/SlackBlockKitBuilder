@@ -9,25 +9,15 @@ import XCTest
 import SlackBlockKitBuilder
 
 final class DividerTests: XCTestCase {
-    func testDivider_ShouldEncodeCorrectly() {
+    func testDivider() {
         let divider = Divider()
-        let jsonResult = """
-            {
-                "type": "divider"
-            }
-        """.filter { !$0.isWhitespace }
         
-        do {
-            let encodingResult = try JSONEncoder().encode(divider)
-            let encodedJson = String(bytes: encodingResult, encoding: .utf8)
-            
-            XCTAssertEqual(encodedJson, jsonResult)
-        } catch let error {
-            XCTFail("Encoding failed with error \(error.localizedDescription)")
-        }
+        XCTAssertEncodedStructure(encodable: divider, structure: [
+            "type": "divider"
+        ])
     }
 
     static var allTests = [
-        ("testDivider_ShouldEncodeCorrectly", testDivider_ShouldEncodeCorrectly)
+        ("testDivider", testDivider)
     ]
 }

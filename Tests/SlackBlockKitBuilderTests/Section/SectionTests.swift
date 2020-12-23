@@ -9,100 +9,72 @@ import XCTest
 import SlackBlockKitBuilder
 
 final class SectionsTests: XCTestCase {
-    func testSections_ShouldEncodeCorrectly_PlainText() {
+    func testSections() {
         let section = Section {
             PlainText(text: "Field", emoji: false)
         }
-        let jsonResult = """
-            {
-                "type": "section",
-                "text": {
-                    "type": "plain_text",
-                    "text": "Field",
-                    "emoji": false
-                }
-            }
-        """.filter { !$0.isWhitespace }
         
-        do {
-            let encodingResult = try JSONEncoder().encode(section)
-            let encodedJson = String(bytes: encodingResult, encoding: .utf8)
-            
-            XCTAssertEqual(encodedJson, jsonResult)
-        } catch let error {
-            XCTFail("Encoding failed with error \(error.localizedDescription)")
-        }
+        XCTAssertEncodedStructure(encodable: section, structure: [
+            "type": "section",
+            "text": [
+                "type": "plain_text",
+                "text": "Field",
+                "emoji": false
+            ]
+        ])
     }
     
-    func testSections_ShouldEncodeCorrectly_TextFields() {
+    func testSections_TextFields() {
         let section = Section {
             TextFields {
                 PlainText(text: "Field", emoji: true)
             }
         }
-        let jsonResult = """
-            {
-                "type": "section",
-                "fields": [
-                    {
-                        "type": "plain_text",
-                        "text": "Field",
-                        "emoji": true
-                    }
-                ]
-            }
-        """.filter { !$0.isWhitespace }
         
-        do {
-            let encodingResult = try JSONEncoder().encode(section)
-            let encodedJson = String(bytes: encodingResult, encoding: .utf8)
-            
-            XCTAssertEqual(encodedJson, jsonResult)
-        } catch let error {
-            XCTFail("Encoding failed with error \(error.localizedDescription)")
-        }
-    }
-    
-    func testSections_ShouldEncodeCorrectly_Accessories() {
-        let section = Section {
-            PlainText(text: "Field", emoji: true)
-        } accessory: {
-            Button(url: "http://github.com") {
-                PlainText(text: "Github", emoji: false)
-            }
-        }
-        let jsonResult = """
-            {
-                "type": "section",
-                "text": {
+        XCTAssertEncodedStructure(encodable: section, structure: [
+            "type": "section",
+            "fields": [
+                [
                     "type": "plain_text",
                     "text": "Field",
                     "emoji": true
-                },
-                "accessory": {
-                    "type": "button",
-                    "text": {
-                        "type": "plain_text",
-                        "text": "Github",
-                        "emoji": false
-                    },
-                    "url": "http:\\/\\/github.com"
-                }
+                ]
+            ]
+        ])
+    }
+    
+    func testSections_Accessories() {
+        let section = Section {
+            PlainText(text: "Field", emoji: true)
+        } accessory: {
+            Button(actionId: "action_0", url: "http://github.com", value: nil) {
+                PlainText(text: "Github", emoji: false)
             }
-        """.filter { !$0.isWhitespace }
-        
-        do {
-            let encodingResult = try JSONEncoder().encode(section)
-            let encodedJson = String(bytes: encodingResult, encoding: .utf8)
-            
-            XCTAssertEqual(encodedJson, jsonResult)
-        } catch let error {
-            XCTFail("Encoding failed with error \(error.localizedDescription)")
         }
+        
+        XCTAssertEncodedStructure(encodable: section, structure: [
+            "type": "section",
+            "text": [
+                "type": "plain_text",
+                "text": "Field",
+                "emoji": true
+            ],
+            "accessory": [
+                "url": "http://github.com",
+                "type": "button",
+                "action_id": "action_0",
+                "text": [
+                    "type": "plain_text",
+                    "text": "Github",
+                    "emoji": false
+                ]
+            ]
+        ])
     }
 
     static var allTests = [
-        ("testSections_ShouldEncodeCorrectly_PlainText", testSections_ShouldEncodeCorrectly_PlainText),
-        ("testSections_ShouldEncodeCorrectly_TextFields", testSections_ShouldEncodeCorrectly_TextFields)
+        ("testSections", testSections),
+        ("testSections_Accessories", testSections_Accessories),
+//        ("testSections_ShouldEncodeCorrectly_TextFields", testSections_ShouldEncodeCorrectly_TextFields)
     ]
 }

@@ -9,27 +9,27 @@ import XCTest
 import SlackBlockKitBuilder
 
 final class PlainTextTests: XCTestCase {
-    func testPlainText_ShouldEncodeCorrectly() {
-        let plainText = PlainText(text: "Header", emoji: false)
-        let jsonResult = """
-            {
-                "type": "plain_text",
-                "text": "Header",
-                "emoji": false
-            }
-        """.filter { !$0.isWhitespace }
+    func testPlainText() {
+        let plainText = PlainText(text: "Text", emoji: true)
         
-        do {
-            let encodingResult = try JSONEncoder().encode(plainText)
-            let encodedJson = String(bytes: encodingResult, encoding: .utf8)
-            
-            XCTAssertEqual(encodedJson, jsonResult)
-        } catch let error {
-            XCTFail("Encoding failed with error \(error.localizedDescription)")
-        }
+        XCTAssertEncodedStructure(encodable: plainText, structure: [
+            "type": "plain_text",
+            "text": "Text",
+            "emoji": true
+        ])
+    }
+    
+    func testPlainText_NoEmoji() {
+        let plainText = PlainText(text: "Text")
+        
+        XCTAssertEncodedStructure(encodable: plainText, structure: [
+            "type": "plain_text",
+            "text": "Text"
+        ])
     }
 
     static var allTests = [
-        ("testPlainText_ShouldEncodeCorrectly", testPlainText_ShouldEncodeCorrectly)
+        ("testPlainText", testPlainText),
+        ("testPlainText_NoEmoji", testPlainText_NoEmoji)
     ]
 }

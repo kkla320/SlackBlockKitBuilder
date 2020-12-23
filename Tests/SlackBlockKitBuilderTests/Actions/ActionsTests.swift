@@ -7,42 +7,34 @@
 
 import XCTest
 import SlackBlockKitBuilder
+import DictionaryCoding
 
 final class ActionsTests: XCTestCase {
-    func testActions_ShouldEncodeCorrectly() {
-        let divider = Actions {
-            Button(url: "https://github.com") {
+    func testActions() {
+        let actions = Actions {
+            Button(actionId: "action_0", url: "https://github.com", value: nil) {
                 PlainText(text: "Test", emoji: false)
             }
         }
-        let jsonResult = """
-            {
-                "type": "actions",
-                "elements": [
-                    {
-                        "type": "button",
-                        "text": {
-                            "type": "plain_text",
-                            "text": "Test",
-                            "emoji": false
-                        },
-                        "url": "https:\\/\\/github.com"
-                    }
-                ]
-            }
-        """.filter { !$0.isWhitespace }
         
-        do {
-            let encodingResult = try JSONEncoder().encode(divider)
-            let encodedJson = String(bytes: encodingResult, encoding: .utf8)
-            
-            XCTAssertEqual(encodedJson, jsonResult)
-        } catch let error {
-            XCTFail("Encoding failed with error \(error.localizedDescription)")
-        }
+        XCTAssertEncodedStructure(encodable: actions, structure: [
+            "type": "actions",
+            "elements": [
+                [
+                    "url": "https://github.com",
+                    "type": "button",
+                    "action_id": "action_0",
+                    "text": [
+                        "type": "plain_text",
+                        "text": "Test",
+                        "emoji": false
+                    ]
+                ]
+            ]
+        ])
     }
 
     static var allTests = [
-        ("testActions_ShouldEncodeCorrectly", testActions_ShouldEncodeCorrectly)
+        ("testActions", testActions)
     ]
 }

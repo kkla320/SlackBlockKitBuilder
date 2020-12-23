@@ -9,26 +9,17 @@ import XCTest
 import SlackBlockKitBuilder
 
 final class MarkdownTests: XCTestCase {
-    func testMarkdown_ShouldEncodeCorrectly() {
-        let markdown = Markdown(text: "Markdown")
-        let jsonResult = """
-            {
-                "type": "mrkdwn",
-                "text": "Markdown"
-            }
-        """.filter { !$0.isWhitespace }
+    func testMarkdown() {
+        let markdown = Markdown(text: "Markdown", verbatim: false)
         
-        do {
-            let encodingResult = try JSONEncoder().encode(markdown)
-            let encodedJson = String(bytes: encodingResult, encoding: .utf8)
-            
-            XCTAssertEqual(encodedJson, jsonResult)
-        } catch let error {
-            XCTFail("Encoding failed with error \(error.localizedDescription)")
-        }
+        XCTAssertEncodedStructure(encodable: markdown, structure: [
+            "type": "mrkdwn",
+            "text": "Markdown",
+            "verbatim": false
+        ])
     }
 
     static var allTests = [
-        ("testMarkdown_ShouldEncodeCorrectly", testMarkdown_ShouldEncodeCorrectly)
+        ("testMarkdown", testMarkdown)
     ]
 }
