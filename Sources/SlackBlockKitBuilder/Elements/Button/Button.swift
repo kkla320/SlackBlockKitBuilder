@@ -7,23 +7,22 @@
 
 import Foundation
 
-public struct Button: BlockElement1 {
+public struct Button {
     private var actionId: String
-    private var url: String?
-    private var value: String?
-    private var style: ButtonStyle
     private var text: PlainText
+    private var url: URL?
+    private var value: String?
+    private var style: ButtonStyle?
     
+    public init(actionId: String, text: () -> PlainText) {
+        self.actionId = actionId
+        self.text = text()
+    }
+}
+
+extension Button: Element {
     public var type: ElementType {
         return .button
-    }
-    
-    public init(actionId: String, url: String?, value: String?, style: ButtonStyle = .default, _ text: () -> PlainText) {
-        self.actionId = actionId
-        self.url = url
-        self.value = value
-        self.style = style
-        self.text = text()
     }
     
     public func encode(to encoder: Encoder) throws {
@@ -35,7 +34,7 @@ public struct Button: BlockElement1 {
         try container.encodeIfPresent(url, forKey: .url)
         try container.encodeIfPresent(value, forKey: .value)
         if style != .default {
-            try container.encode(style, forKey: .style)
+            try container.encodeIfPresent(style, forKey: .style)
         }
     }
     
@@ -49,10 +48,18 @@ public struct Button: BlockElement1 {
     }
 }
 
-public enum ButtonStyle: String, Encodable {
-    case `default` = "default"
-    case primary = "primary"
-    case danger = "danger"
+extension Button: Changeable {
+    public func url(_ value: URL) -> Button {
+        return self.changing { $0.url = value }
+    }
+    
+    public func value(_ value: String) -> Button {
+        return self.changing { $0.value = value }
+    }
+    
+    public func style(_ value: ButtonStyle) -> Button {
+        return self.changing { $0.style = value }
+    }
 }
 
 extension ElementType {

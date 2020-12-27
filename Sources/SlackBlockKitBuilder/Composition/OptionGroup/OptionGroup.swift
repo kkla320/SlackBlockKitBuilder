@@ -7,15 +7,20 @@
 
 import Foundation
 
-struct OptionGroup<T>: Element where T: TextObject {
+public struct OptionGroup<T>: Element where T: TextObject {
     private var label: PlainText
     private var options: [Option<T>]
     
-    var type: ElementType {
+    public var type: ElementType {
         return .none
     }
     
-    func encode(to encoder: Encoder) throws {
+    public init(label: () -> PlainText, @ElementBuilder<Option<T>> options: () -> [Option<T>]) {
+        self.label = label()
+        self.options = options()
+    }
+    
+    public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
         try container.encode(label, forKey: .label)

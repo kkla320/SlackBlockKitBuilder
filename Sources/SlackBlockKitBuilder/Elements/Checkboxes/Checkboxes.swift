@@ -7,19 +7,20 @@
 
 import Foundation
 
-public struct Checkboxes: Element {
+public struct Checkboxes {
     private var actionId: String
     private var options: [CheckboxOption]
-    private var initialOptions: [CheckboxOption]
+    private var initialOptions: [CheckboxOption]?
     
-    public var type: ElementType {
-        return .checkboxes
-    }
-    
-    public init(actionId: String, @CheckboxesBuilder options: () -> [CheckboxOption], @CheckboxesBuilder initialOptions: () -> [CheckboxOption]) {
+    public init(actionId: String, @ElementBuilder<CheckboxOption> options: () -> [CheckboxOption]) {
         self.actionId = actionId
         self.options = options()
-        self.initialOptions = initialOptions()
+    }
+}
+
+extension Checkboxes: Element {
+    public var type: ElementType {
+        return .checkboxes
     }
     
     public func encode(to encoder: Encoder) throws {
@@ -28,7 +29,7 @@ public struct Checkboxes: Element {
         try container.encode(type, forKey: .type)
         try container.encode(actionId, forKey: .actionId)
         try container.encode(options.map({ $0.eraseToAnyEncodable() }), forKey: .options)
-        try container.encode(initialOptions.map({ $0.eraseToAnyEncodable() }), forKey: .initialOptions)
+        try container.encodeIfPresent(initialOptions?.map({ $0.eraseToAnyEncodable() }), forKey: .initialOptions)
     }
     
     enum CodingKeys: String, CodingKey {
@@ -39,8 +40,10 @@ public struct Checkboxes: Element {
     }
 }
 
-extension Option: CheckboxOption where T: TextObject {
-    
+extension Checkboxes: Changeable {
+    public func initialOptions(@ElementBuilder<CheckboxOption> initialOptions: () -> [CheckboxOption]) -> Checkboxes {
+        return self.changing { $0.initialOptions = initialOptions() }
+    }
 }
 
 extension ElementType {

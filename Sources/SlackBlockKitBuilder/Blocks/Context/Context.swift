@@ -14,7 +14,7 @@ public struct Context: BlockElement {
         return .context
     }
     
-    public init(@ContextBuilder _ content: () -> [ContextElement]) {
+    public init(@ElementBuilder<ContextElement> _ content: () -> [ContextElement]) {
         self.elements = content()
     }
     

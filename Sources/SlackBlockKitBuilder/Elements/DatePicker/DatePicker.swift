@@ -9,23 +9,17 @@ import Foundation
 
 public struct DatePicker: BlockElement1 {
     private var actionId: String
-    private var initialDate: Date?
-    private var placeholder: PlainText?
+    var initialDate: Date?
+    var placeholder: PlainText?
     
+    public init(actionId: String) {
+        self.actionId = actionId
+    }
+}
+
+extension DatePicker: Element {
     public var type: ElementType {
         return .datePicker
-    }
-    
-    public init(actionId: String, initialDate: Date?, _ placeholder: () -> PlainText) {
-        self.actionId = actionId
-        self.initialDate = initialDate
-        self.placeholder = placeholder()
-    }
-    
-    public init(actionId: String, initialDate: Date?) {
-        self.actionId = actionId
-        self.initialDate = initialDate
-        self.placeholder = nil
     }
     
     public func encode(to encoder: Encoder) throws {
@@ -39,7 +33,7 @@ public struct DatePicker: BlockElement1 {
     
     private func format(date: Date) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "YYYY-MM-DD"
+        dateFormatter.dateFormat = "YYYY-MM-dd"
         return dateFormatter.string(from: date)
     }
     
@@ -48,6 +42,16 @@ public struct DatePicker: BlockElement1 {
         case actionId = "action_id"
         case placeholder
         case initialDate = "initial_date"
+    }
+}
+
+extension DatePicker: Changeable {
+    public func initialDate(_ value: Date) -> DatePicker {
+        return self.changing { $0.initialDate = value }
+    }
+    
+    public func placeholder(_ value: () -> PlainText) -> DatePicker {
+        return self.changing { $0.placeholder = value() }
     }
 }
 

@@ -10,13 +10,34 @@ import SlackBlockKitBuilder
 
 final class ButtonTests: XCTestCase {
     func testButton() {
-        let button = Button(actionId: "action_0", url: "http://github.com", value: nil) {
+        let button = Button(actionId: "action_0") {
             PlainText(text: "Github", emoji: true)
         }
         
         XCTAssertEncodedStructure(encodable: button, structure: [
             "action_id": "action_0",
-            "url": "http://github.com",
+            "type": "button",
+            "text": [
+                "type": "plain_text",
+                "text": "Github",
+                "emoji": true
+            ]
+        ])
+    }
+    
+    func testButton_OptionalFields() {
+        let button = Button(actionId: "action_0") {
+            PlainText(text: "Github", emoji: true)
+        }
+        .style(.danger)
+        .value("value")
+        .url(URL(string: "https://github.com")!)
+        
+        XCTAssertEncodedStructure(encodable: button, structure: [
+            "action_id": "action_0",
+            "url": "https://github.com",
+            "value": "value",
+            "style": "danger",
             "type": "button",
             "text": [
                 "type": "plain_text",

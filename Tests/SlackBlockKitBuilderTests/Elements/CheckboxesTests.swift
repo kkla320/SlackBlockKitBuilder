@@ -21,7 +21,51 @@ final class CheckboxesTests: XCTestCase {
             Option(value: "A3") {
                 Markdown(text: "*Cat*", verbatim: false)
             }
-        } initialOptions: {
+        }
+        
+        XCTAssertEncodedStructure(encodable: checkboxes, structure: [
+            "action_id": "action_0",
+            "type": "checkboxes",
+            "options": [
+                [
+                    "value": "A1",
+                    "text": [
+                        "type": "plain_text",
+                        "text": "Checkbox 1"
+                    ]
+                ],
+                [
+                    "value": "A2",
+                    "text": [
+                        "type": "plain_text",
+                        "text": "Checkbox 2"
+                    ]
+                ],
+                [
+                    "value": "A3",
+                    "text": [
+                        "type": "mrkdwn",
+                        "text": "*Cat*",
+                        "verbatim": false
+                    ]
+                ]
+            ]
+        ])
+    }
+    
+    func testCheckboxes_OptionalFields() {
+        let checkboxes = Checkboxes(actionId: "action_0") {
+            Option(value: "A1") {
+                PlainText(text: "Checkbox 1")
+            }
+            Option(value: "A2") {
+                PlainText(text: "Checkbox 2")
+            }
+            Option(value: "A3") {
+                Markdown(text: "*Cat*", verbatim: false)
+            }
+        }
+        .initialOptions {
             Option(value: "A1") {
                 PlainText(text: "Checkbox 1")
             }

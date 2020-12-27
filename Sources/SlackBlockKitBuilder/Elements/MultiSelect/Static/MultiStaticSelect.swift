@@ -7,32 +7,30 @@
 
 import Foundation
 
-public struct MultiStaticSelectMenu: Element {
+public struct MultiStaticSelect {
     private var placeholder: PlainText
     private var actionId: String
-    private var options: [MultiStaticSelectMenuOption]?
-    private var optionGroups: [MultiStaticSelectMenuOptionGroup]?
-    private var initialOptions: [MultiStaticSelectMenuOption]?
-    private var maxSelectedItems: Int?
+    private var options: [MultiStaticSelectOption]?
+    private var optionGroups: [MultiStaticSelectOptionGroup]?
+    var initialOptions: [MultiStaticSelectOption]?
+    var maxSelectedItems: Int?
     
+    public init(actionId: String, placeholder: () -> PlainText, @ElementBuilder<MultiStaticSelectOption> options: () -> [MultiStaticSelectOption]) {
+        self.actionId = actionId
+        self.placeholder = placeholder()
+        self.options = options()
+    }
+    
+    public init(actionId: String, placeholder: () -> PlainText, @ElementBuilder<MultiStaticSelectOptionGroup> optionGroups: () -> [MultiStaticSelectOptionGroup]) {
+        self.actionId = actionId
+        self.placeholder = placeholder()
+        self.optionGroups = optionGroups()
+    }
+}
+
+extension MultiStaticSelect: Element {
     public var type: ElementType {
-        return .multiStaticSelectMenu
-    }
-    
-    public init(actionId: String, placeholder: () -> PlainText, @MultiStaticSelectMenuOptionBuilder options: () -> [MultiStaticSelectMenuOption]) {
-        self.actionId = actionId
-        self.placeholder = placeholder()
-        self.options = options()
-        self.optionGroups = nil
-    }
-    
-    public init(actionId: String, maxSelectedItems: Int?, placeholder: () -> PlainText, @MultiStaticSelectMenuOptionBuilder options: () -> [MultiStaticSelectMenuOption], @MultiStaticSelectMenuOptionBuilder initialOptions: () -> [MultiStaticSelectMenuOption]) {
-        self.actionId = actionId
-        self.placeholder = placeholder()
-        self.options = options()
-        self.initialOptions = initialOptions()
-        self.optionGroups = nil
-        self.maxSelectedItems = maxSelectedItems
+        return .multiStaticSelect
     }
     
     public func encode(to encoder: Encoder) throws {
@@ -62,8 +60,18 @@ public struct MultiStaticSelectMenu: Element {
     }
 }
 
+extension MultiStaticSelect: Changeable {
+    public func initialOptions(@ElementBuilder<MultiStaticSelectOption> _ value: () -> [MultiStaticSelectOption]) -> MultiStaticSelect {
+        return self.changing { $0.initialOptions = value() }
+    }
+    
+    public func maxSelectedItems(_ value: Int) -> MultiStaticSelect {
+        return self.changing { $0.maxSelectedItems = value }
+    }
+}
+
 extension ElementType {
-    static var multiStaticSelectMenu: ElementType {
+    public static var multiStaticSelect: ElementType {
         return ElementType(type: "multi_static_select")
     }
 }

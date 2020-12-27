@@ -7,6 +7,6 @@
 
 import Foundation
 
-public protocol MultiStaticSelectMenuOptionGroup: Element {
+extension OptionGroup: MultiStaticSelectOptionGroup where T == PlainText {
     
 }

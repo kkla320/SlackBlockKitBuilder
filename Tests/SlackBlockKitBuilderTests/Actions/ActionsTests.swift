@@ -12,7 +12,7 @@ import DictionaryCoding
 final class ActionsTests: XCTestCase {
     func testActions() {
         let actions = Actions {
-            Button(actionId: "action_0", url: "https://github.com", value: nil) {
+            Button(actionId: "action_0") {
                 PlainText(text: "Test", emoji: false)
             }
         }
@@ -21,7 +21,6 @@ final class ActionsTests: XCTestCase {
             "type": "actions",
             "elements": [
                 [
-                    "url": "https://github.com",
                     "type": "button",
                     "action_id": "action_0",
                     "text": [
