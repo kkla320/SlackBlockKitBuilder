@@ -7,15 +7,18 @@
 
 import Foundation
 
-public struct Header<Text>: BlockElement where Text: TextObject {
-    private var text: Text
+public struct Header {
+    public internal(set) var blockId: String?
+    private var text: PlainText
     
+    public init(_ text: () -> PlainText) {
+        self.text = text()
+    }
+}
+
+extension Header: Block {
     public var type: ElementType {
         return .header
-    }
-    
-    public init(_ text: () -> Text) {
-        self.text = text()
     }
     
     public func encode(to encoder: Encoder) throws {
@@ -23,11 +26,19 @@ public struct Header<Text>: BlockElement where Text: TextObject {
         
         try container.encode(type, forKey: .type)
         try container.encode(text, forKey: .text)
+        try container.encodeIfPresent(blockId, forKey: .blockId)
     }
     
-    enum CodingKeys: CodingKey {
+    enum CodingKeys: String, CodingKey {
         case type
         case text
+        case blockId = "block_id"
+    }
+}
+
+extension Header: Changeable {
+    public func blockId(_ value: String) -> Header {
+        return self.changing { $0.blockId = value }
     }
 }
 

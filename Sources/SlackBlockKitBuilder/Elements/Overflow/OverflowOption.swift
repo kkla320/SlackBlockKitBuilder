@@ -7,6 +7,6 @@
 
 import Foundation
 
-public protocol OverflowMenuOption: Element {
+public protocol OverflowOption: Encodable {
     
 }

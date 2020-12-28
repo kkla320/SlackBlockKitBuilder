@@ -10,7 +10,8 @@ import SlackBlockKitBuilder
 
 final class PlainTextTests: XCTestCase {
     func testPlainText() {
-        let plainText = PlainText(text: "Text", emoji: true)
+        let plainText = PlainText(text: "Text")
+            .emoji(true)
         
         XCTAssertEncodedStructure(encodable: plainText, structure: [
             "type": "plain_text",

@@ -11,7 +11,8 @@ import XCTest
 final class TextFieldsTests: XCTestCase {
     func testTextFields() {
         let textFields = TextFields {
-            PlainText(text: "Field", emoji: false)
+            PlainText(text: "Field")
+                .emoji(false)
         }
         
         XCTAssertEqual(textFields.elements.count, 1)
@@ -20,8 +21,10 @@ final class TextFieldsTests: XCTestCase {
     
     func testTextFields_MixedFields() {
         let textFields = TextFields {
-            PlainText(text: "Field", emoji: false)
-            Markdown(text: "*Cat*", verbatim: false)
+            PlainText(text: "Field")
+                .emoji(false)
+            Markdown(text: "*Cat*")
+                .verbatim(false)
         }
         
         XCTAssertEqual(textFields.elements.count, 2)
@@ -32,7 +35,8 @@ final class TextFieldsTests: XCTestCase {
     func testTextFields_ForEach() {
         let textFields = TextFields {
             ForEach(data: 0..<2) { index in
-                PlainText(text: "\(index)", emoji: false)
+                PlainText(text: "\(index)")
+                    .emoji(false)
             }
         }
         
@@ -45,9 +49,11 @@ final class TextFieldsTests: XCTestCase {
     func testTextFields_ForEach_ExtraElement() {
         let textFields = TextFields {
             ForEach(data: 0..<2) { index in
-                PlainText(text: "\(index)", emoji: false)
+                PlainText(text: "\(index)")
+                    .emoji(false)
             }
-            Markdown(text: "*Cat*", verbatim: false)
+            Markdown(text: "*Cat*")
+                .verbatim(false)
         }
         
         
@@ -61,7 +67,8 @@ final class TextFieldsTests: XCTestCase {
         let textFields = TextFields {
             ForEach(data: 0..<2) { index in
                 ForEach(data: 0..<2) { index1 in
-                    PlainText(text: "\(index)\(index1)", emoji: false)
+                    PlainText(text: "\(index)\(index1)")
+                        .emoji(false)
                 }
             }
         }
@@ -77,9 +84,11 @@ final class TextFieldsTests: XCTestCase {
     func testTextFields_IfTrue() {
         let execute = true
         let textFields = TextFields {
-            PlainText(text: "Field", emoji: false)
+            PlainText(text: "Field")
+                .emoji(false)
             if execute {
-                PlainText(text: "Field2", emoji: false)
+                PlainText(text: "Field2")
+                    .emoji(false)
             }
         }
         
@@ -91,9 +100,11 @@ final class TextFieldsTests: XCTestCase {
     func testTextFields_IfFalse() {
         let execute = false
         let textFields = TextFields {
-            PlainText(text: "Field", emoji: false)
+            PlainText(text: "Field")
+                .emoji(false)
             if execute {
-                PlainText(text: "Field2", emoji: false)
+                PlainText(text: "Field2")
+                    .emoji(false)
             }
         }
         
@@ -104,12 +115,15 @@ final class TextFieldsTests: XCTestCase {
     func testTextFields_IfElse() {
         let execute = false
         let textFields = TextFields {
-            PlainText(text: "Field", emoji: false)
+            PlainText(text: "Field")
+                .emoji(false)
             if execute {
-                Markdown(text: "Field2", verbatim: false)
+                Markdown(text: "Field2")
+                    .verbatim(false)
             }
             else {
-                PlainText(text: "Field3", emoji: false)
+                PlainText(text: "Field3")
+                    .emoji(false)
             }
         }
         

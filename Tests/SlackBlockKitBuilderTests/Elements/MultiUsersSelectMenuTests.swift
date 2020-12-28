@@ -8,9 +8,9 @@
 import XCTest
 import SlackBlockKitBuilder
 
-final class MultiUsersSelectMenuTests: XCTestCase {
+final class MultiUsersSelectTests: XCTestCase {
     func testMultiUsersSelectMenu() {
-        let multiUsersMenu = MultiUsersSelectMenu(actionId: "text1234") {
+        let multiUsersMenu = MultiUsersSelect(actionId: "text1234") {
             PlainText(text: "Select users")
         }
 
@@ -24,10 +24,12 @@ final class MultiUsersSelectMenuTests: XCTestCase {
         ])
     }
     
-    func testMultiUsersSelectMenu_InitialUsers() {
-        let multiUsersMenu = MultiUsersSelectMenu(actionId: "text1234", initialUsers: ["1", "2"]) {
+    func testMultiUsersSelectMenu_OptionalFields() {
+        let multiUsersMenu = MultiUsersSelect(actionId: "text1234") {
             PlainText(text: "Select users")
         }
+        .initialUsers(["1", "2"])
+        .maxSelectedItems(2)
 
         XCTAssertEncodedStructure(encodable: multiUsersMenu, structure: [
             "type": "multi_users_select",
@@ -39,21 +41,6 @@ final class MultiUsersSelectMenuTests: XCTestCase {
             "initial_users": [
                 "1",
                 "2"
-            ]
-        ])
-    }
-    
-    func testMultiUsersSelectMenu_MaxSelectedItems() {
-        let multiUsersMenu = MultiUsersSelectMenu(actionId: "text1234", maxSelectedItems: 2) {
-            PlainText(text: "Select users")
-        }
-
-        XCTAssertEncodedStructure(encodable: multiUsersMenu, structure: [
-            "type": "multi_users_select",
-            "action_id": "text1234",
-            "placeholder": [
-                "type": "plain_text",
-                "text": "Select users"
             ],
             "max_selected_items": 2
         ])

@@ -7,15 +7,11 @@
 
 import Foundation
 
-public struct Option<T>: Element where T: TextObject {
+public struct Option<T>: Encodable where T: TextObject {
     private var text: T
     private var value: String
     private var description: PlainText?
     private var url: URL?
-    
-    public var type: ElementType {
-        return .none
-    }
     
     public init(text: T, value: String) {
         self.text = text

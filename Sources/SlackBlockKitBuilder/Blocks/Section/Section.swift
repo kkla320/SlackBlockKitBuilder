@@ -7,53 +7,56 @@
 
 import Foundation
 
-public struct Section: BlockElement {
-    private var text: AnyTextObject?
+public struct Section {
+    public internal(set) var blockId: String?
+    private var text: TextObject?
     private var fields: TextFields?
-    private var accessory: AnyBlockElement1?
-    
-    public var type: ElementType {
-        return .section
-    }
+    var accessory: Element?
     
     public init(_ text: () -> TextObject) {
-        self.text = text().eraseToAnyTextObject()
-        self.accessory = nil
+        self.text = text()
     }
     
     public init(fields: () -> TextFields) {
-        self.text = nil
         self.fields = fields()
     }
-    
-    public init(_ text: () -> TextObject, accessory: () -> BlockElement1) {
-        self.text = text().eraseToAnyTextObject()
-        self.accessory = accessory().eraseToAnyBlockElement1()
-    }
-    
-    public init(_ fields: () -> TextFields, accessory: () -> BlockElement1) {
-        self.fields = fields()
-        self.accessory = accessory().eraseToAnyBlockElement1()
+}
+
+extension Section: Block {
+    public var type: ElementType {
+        return .section
     }
     
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
         try container.encode(type, forKey: .type)
-        if text != nil {
-            try container.encode(text, forKey: .text)
+        if let text = text {
+            try container.encode(text.eraseToAnyEncodable(), forKey: .text)
         }
-        else {
-            try container.encode(fields?.elements, forKey: .fields)
+        else if let textFields = fields?.elements {
+            try container.encode(textFields.map({ $0.eraseToAnyEncodable() }), forKey: .fields)
         }
-        try container.encodeIfPresent(accessory, forKey: .accessory)
+        try container.encodeIfPresent(accessory?.eraseToAnyEncodable(), forKey: .accessory)
+        try container.encodeIfPresent(blockId, forKey: .blockId)
     }
     
-    enum CodingKeys: CodingKey {
+    enum CodingKeys: String, CodingKey {
         case type
         case text
         case fields
         case accessory
+        case blockId = "block_id"
+    }
+}
+
+extension Section: Changeable {
+    public func accessory<T>(_ value: () -> T) -> Section where T: Element {
+        return self.changing { $0.accessory = value() }
+    }
+    
+    public func blockId(_ value: String) -> Section {
+        return self.changing { $0.blockId = value }
     }
 }
 

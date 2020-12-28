@@ -11,7 +11,8 @@ import SlackBlockKitBuilder
 final class HeaderTests: XCTestCase {
     func testHeader() {
         let header = Header {
-            PlainText(text: "Text", emoji: false)
+            PlainText(text: "Text")
+                .emoji(false)
         }
         
         XCTAssertEncodedStructure(encodable: header, structure: [

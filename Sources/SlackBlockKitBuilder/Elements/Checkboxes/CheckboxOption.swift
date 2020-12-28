@@ -7,6 +7,6 @@
 
 import Foundation
 
-public protocol CheckboxOption: Element {
+public protocol CheckboxOption: Encodable {
     
 }

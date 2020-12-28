@@ -7,6 +7,6 @@
 
 import Foundation
 
-public protocol RadioButtonOption: Element {
+public protocol RadioButtonOption: Encodable {
     
 }

@@ -7,24 +7,26 @@
 
 import Foundation
 
-public struct Image: Element {
-    private var imageUrl: String
+public struct Image {
+    private var imageUrl: URL
     private var altText: String
     
-    public var type: ElementType {
-        return .image
-    }
-    
-    public init(imageUrl: String, altText: String) {
+    public init(imageUrl: URL, altText: String) {
         self.imageUrl = imageUrl
         self.altText = altText
+    }
+}
+
+extension Image: Element {
+    public var type: ElementType {
+        return .image
     }
     
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
         try container.encode(type, forKey: .type)
-        try container.encode(imageUrl, forKey: .imageUrl)
+        try container.encode(imageUrl.absoluteString, forKey: .imageUrl)
         try container.encode(altText, forKey: .altText)
     }
     

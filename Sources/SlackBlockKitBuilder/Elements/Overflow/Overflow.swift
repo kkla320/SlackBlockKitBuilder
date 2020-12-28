@@ -7,15 +7,15 @@
 
 import Foundation
 
-public struct OverflowMenu: Element {
+public struct Overflow: Element {
     private var actionId: String
-    private var options: [OverflowMenuOption]
+    private var options: [OverflowOption]
     
     public var type: ElementType {
         return .overflowMenu
     }
     
-    public init(actionId: String, @ElementBuilder<OverflowMenuOption> options: () -> [OverflowMenuOption]) {
+    public init(actionId: String, @ElementBuilder<OverflowOption> options: () -> [OverflowOption]) {
         self.actionId = actionId
         self.options = options()
     }

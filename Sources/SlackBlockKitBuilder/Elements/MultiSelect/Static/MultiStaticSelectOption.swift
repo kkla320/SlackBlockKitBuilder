@@ -7,6 +7,6 @@
 
 import Foundation
 
-public protocol MultiStaticSelectOption: Element {
+public protocol MultiStaticSelectOption: Encodable {
     
 }

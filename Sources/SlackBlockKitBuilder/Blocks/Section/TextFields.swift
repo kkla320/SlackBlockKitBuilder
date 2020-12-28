@@ -8,9 +8,9 @@
 import Foundation
 
 public struct TextFields {
-    var elements: [AnyTextObject]
+    var elements: [TextObject]
     
-    public init(@TextBuilder _ content: () -> [AnyTextObject]) {
+    public init(@ElementBuilder<TextObject> _ content: () -> [TextObject]) {
         self.elements = content()
     }
 }

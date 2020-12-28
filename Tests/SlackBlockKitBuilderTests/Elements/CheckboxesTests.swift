@@ -19,7 +19,8 @@ final class CheckboxesTests: XCTestCase {
                 PlainText(text: "Checkbox 2")
             }
             Option(value: "A3") {
-                Markdown(text: "*Cat*", verbatim: false)
+                Markdown(text: "*Cat*")
+                    .verbatim(false)
             }
         }
         
@@ -62,7 +63,8 @@ final class CheckboxesTests: XCTestCase {
                 PlainText(text: "Checkbox 2")
             }
             Option(value: "A3") {
-                Markdown(text: "*Cat*", verbatim: false)
+                Markdown(text: "*Cat*")
+                    .verbatim(false)
             }
         }
         .initialOptions {

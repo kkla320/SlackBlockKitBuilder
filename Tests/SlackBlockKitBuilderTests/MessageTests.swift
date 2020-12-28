@@ -13,11 +13,13 @@ final class MessageTests: XCTestCase {
         let message = Message {
             ForEach(data: 0..<2) { index in
                 Section {
-                    PlainText(text: "\(index)", emoji: true)
+                    PlainText(text: "\(index)")
+                        .emoji(true)
                 }
             }
             Context {
-                PlainText(text: "Footer", emoji: true)
+                PlainText(text: "Footer")
+                    .emoji(true)
             }
         }
         let jsonResult = """
@@ -69,11 +71,13 @@ final class MessageTests: XCTestCase {
         let message = Message {
             if execute {
                 Section {
-                    PlainText(text: "WElt", emoji: true)
+                    PlainText(text: "WElt")
+                        .emoji(true)
                 }
             }
             Section {
-                PlainText(text: "Hallo", emoji: true)
+                PlainText(text: "Hallo")
+                    .emoji(true)
             }
         }
         let jsonResult = """
@@ -107,11 +111,13 @@ final class MessageTests: XCTestCase {
         let message = Message {
             if execute {
                 Section {
-                    PlainText(text: "Welt", emoji: true)
+                    PlainText(text: "Welt")
+                        .emoji(true)
                 }
             }
             Section {
-                PlainText(text: "Hallo", emoji: true)
+                PlainText(text: "Hallo")
+                    .emoji(true)
             }
         }
         let jsonResult = """
@@ -153,16 +159,19 @@ final class MessageTests: XCTestCase {
         let message = Message {
             if execute {
                 Section {
-                    PlainText(text: "Welt", emoji: true)
+                    PlainText(text: "Welt")
+                        .emoji(true)
                 }
             }
             else {
                 Section {
-                    PlainText(text: "World", emoji: true)
+                    PlainText(text: "World")
+                        .emoji(true)
                 }
             }
             Section {
-                PlainText(text: "Hallo", emoji: true)
+                PlainText(text: "Hallo")
+                    .emoji(true)
             }
         }
         let jsonResult = """

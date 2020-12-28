@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct DatePicker: BlockElement1 {
+public struct DatePicker {
     private var actionId: String
     var initialDate: Date?
     var placeholder: PlainText?

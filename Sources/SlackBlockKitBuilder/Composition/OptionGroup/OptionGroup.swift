@@ -7,13 +7,9 @@
 
 import Foundation
 
-public struct OptionGroup<T>: Element where T: TextObject {
+public struct OptionGroup<T>: Encodable where T: TextObject {
     private var label: PlainText
     private var options: [Option<T>]
-    
-    public var type: ElementType {
-        return .none
-    }
     
     public init(label: () -> PlainText, @ElementBuilder<Option<T>> options: () -> [Option<T>]) {
         self.label = label()

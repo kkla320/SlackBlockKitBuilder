@@ -13,7 +13,8 @@ final class ActionsTests: XCTestCase {
     func testActions() {
         let actions = Actions {
             Button(actionId: "action_0") {
-                PlainText(text: "Test", emoji: false)
+                PlainText(text: "Test")
+                    .emoji(true)
             }
         }
         
@@ -26,7 +27,7 @@ final class ActionsTests: XCTestCase {
                     "text": [
                         "type": "plain_text",
                         "text": "Test",
-                        "emoji": false
+                        "emoji": true
                     ]
                 ]
             ]

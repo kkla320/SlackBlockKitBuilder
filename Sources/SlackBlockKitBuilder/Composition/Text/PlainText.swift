@@ -7,17 +7,18 @@
 
 import Foundation
 
-public struct PlainText: TextObject {
+public struct PlainText {
     private var text: String
-    private var emoji: Bool?
+    var emoji: Bool?
     
+    public init(text: String) {
+        self.text = text
+    }
+}
+
+extension PlainText: TextObject {
     public var type: ElementType {
         return .plainText
-    }
-    
-    public init(text: String, emoji: Bool? = nil) {
-        self.text = text
-        self.emoji = emoji
     }
     
     public func encode(to encoder: Encoder) throws {
@@ -32,6 +33,12 @@ public struct PlainText: TextObject {
         case type
         case text
         case emoji
+    }
+}
+
+extension PlainText: Changeable {
+    public func emoji(_ value: Bool) -> PlainText {
+        return self.changing { $0.emoji = value }
     }
 }
 

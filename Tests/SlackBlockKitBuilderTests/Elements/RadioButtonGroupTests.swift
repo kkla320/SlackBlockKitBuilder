@@ -15,7 +15,8 @@ final class RadioButtonGroupTests: XCTestCase {
                 PlainText(text: "Text")
             }
             Option(value: "value-1") {
-                Markdown(text: "*Markdown*", verbatim: false)
+                Markdown(text: "*Markdown*")
+                    .verbatim(false)
             }
         }
         
@@ -48,7 +49,8 @@ final class RadioButtonGroupTests: XCTestCase {
                 PlainText(text: "Text")
             }
             Option(value: "value-1") {
-                Markdown(text: "*Markdown*", verbatim: false)
+                Markdown(text: "*Markdown*")
+                    .verbatim(false)
             }
         }
         .initialOption {

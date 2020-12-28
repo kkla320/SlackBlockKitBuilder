@@ -10,7 +10,8 @@ import SlackBlockKitBuilder
 
 final class MarkdownTests: XCTestCase {
     func testMarkdown() {
-        let markdown = Markdown(text: "Markdown", verbatim: false)
+        let markdown = Markdown(text: "Markdown")
+            .verbatim(false)
         
         XCTAssertEncodedStructure(encodable: markdown, structure: [
             "type": "mrkdwn",

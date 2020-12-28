@@ -11,7 +11,8 @@ import SlackBlockKitBuilder
 final class ButtonTests: XCTestCase {
     func testButton() {
         let button = Button(actionId: "action_0") {
-            PlainText(text: "Github", emoji: true)
+            PlainText(text: "Github")
+                .emoji(true)
         }
         
         XCTAssertEncodedStructure(encodable: button, structure: [
@@ -27,7 +28,8 @@ final class ButtonTests: XCTestCase {
     
     func testButton_OptionalFields() {
         let button = Button(actionId: "action_0") {
-            PlainText(text: "Github", emoji: true)
+            PlainText(text: "Github")
+                .emoji(true)
         }
         .style(.danger)
         .value("value")

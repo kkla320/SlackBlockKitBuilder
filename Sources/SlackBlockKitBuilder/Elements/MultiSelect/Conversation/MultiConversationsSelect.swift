@@ -7,25 +7,23 @@
 
 import Foundation
 
-public struct MultiConversationSelectMenu: Element {
+public struct MultiConversationsSelect {
     private var placeholder: PlainText
     private var actionId: String
-    private var initialConversations: [String]?
-    private var defaultToCurrentConversation: Bool?
-    private var maxSelectedItems: Int?
-    private var filter: ConversationFilter?
+    var initialConversations: [String]?
+    var defaultToCurrentConversation: Bool?
+    var maxSelectedItems: Int?
+    var filter: ConversationFilter?
     
-    public var type: ElementType {
-        return .multiConversationSelectMenu
-    }
-    
-    public init(actionId: String, initialConversations: [String]? = nil, defaultToCurrentConversation: Bool? = nil, maxSelectedItems: Int? = nil, filter: ConversationFilter? = nil, placeholder: () -> PlainText) {
+    public init(actionId: String, placeholder: () -> PlainText) {
         self.placeholder = placeholder()
         self.actionId = actionId
-        self.initialConversations = initialConversations
-        self.defaultToCurrentConversation = defaultToCurrentConversation
-        self.maxSelectedItems = maxSelectedItems
-        self.filter = filter
+    }
+}
+
+extension MultiConversationsSelect: Element {
+    public var type: ElementType {
+        return .multiConversationSelectMenu
     }
     
     public func encode(to encoder: Encoder) throws {
@@ -48,6 +46,24 @@ public struct MultiConversationSelectMenu: Element {
         case defaultToCurrentConversation = "default_to_current_conversation"
         case maxSelectedItems = "max_selected_items"
         case filter
+    }
+}
+
+extension MultiConversationsSelect: Changeable {
+    public func initialConversations(_ value: [String]) -> MultiConversationsSelect {
+        return self.changing { $0.initialConversations = value }
+    }
+    
+    public func defaultToCurrentConversation(_ value: Bool) -> MultiConversationsSelect {
+        return self.changing { $0.defaultToCurrentConversation = value }
+    }
+    
+    public func maxSelectedItems(_ value: Int) -> MultiConversationsSelect {
+        return self.changing { $0.maxSelectedItems = value }
+    }
+    
+    public func filter(_ value: ConversationFilter) -> MultiConversationsSelect {
+        return self.changing { $0.filter = value }
     }
 }
 

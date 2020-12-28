@@ -10,7 +10,7 @@ import SlackBlockKitBuilder
 
 final class MultiConversationSelectMenuTests: XCTestCase {
     func testMultiConversationSelectMenu() {
-        let multiConversationSelectMenu = MultiConversationSelectMenu(actionId: "text1234") {
+        let multiConversationSelectMenu = MultiConversationsSelect(actionId: "text1234") {
             PlainText(text: "Select items")
         }
         
@@ -25,9 +25,17 @@ final class MultiConversationSelectMenuTests: XCTestCase {
     }
     
     func testMultiConversationSelectMenu_OptionalFields() {
-        let multiConversationSelectMenu = MultiConversationSelectMenu(actionId: "text1234", initialConversations: ["Test"], defaultToCurrentConversation: true, maxSelectedItems: 2, filter: ConversationFilter(include: [.public], excludeExternalSharedChannels: true, excludeBotUsers: true)) {
+        let multiConversationSelectMenu = MultiConversationsSelect(actionId: "text1234") {
             PlainText(text: "Select items")
         }
+        .initialConversations(["Test"])
+        .maxSelectedItems(2)
+        .defaultToCurrentConversation(true)
+        .filter(ConversationFilter(
+                    include: [.public],
+                    excludeExternalSharedChannels: true,
+                    excludeBotUsers: true)
+        )
         
         XCTAssertEncodedStructure(encodable: multiConversationSelectMenu, structure: [
             "type": "multi_conversations_select",

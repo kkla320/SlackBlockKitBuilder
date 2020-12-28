@@ -7,6 +7,6 @@
 
 import Foundation
 
-extension Option: OverflowMenuOption where T == PlainText {
+extension Option: OverflowOption where T == PlainText {
     
 }

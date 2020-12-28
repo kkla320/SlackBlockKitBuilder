@@ -7,14 +7,10 @@
 
 import Foundation
 
-public struct ConversationFilter: Element {
+public struct ConversationFilter: Encodable {
     private var include: [ConversationType]?
     private var excludeExternalSharedChannels: Bool?
     private var excludeBotUsers: Bool?
-    
-    public var type: ElementType {
-        return .none
-    }
     
     public init(include: [ConversationType]?, excludeExternalSharedChannels: Bool?, excludeBotUsers: Bool?) {
         self.include = include

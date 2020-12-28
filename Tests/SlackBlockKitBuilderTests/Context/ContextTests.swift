@@ -11,7 +11,8 @@ import SlackBlockKitBuilder
 final class ContextTests: XCTestCase {
     func testContext() {
         let context = Context {
-            PlainText(text: "Field", emoji: false)
+            PlainText(text: "Field")
+                .emoji(false)
         }
         
         XCTAssertEncodedStructure(encodable: context, structure: [
@@ -28,8 +29,10 @@ final class ContextTests: XCTestCase {
     
     func testContext_MixedFields() {
         let context = Context {
-            PlainText(text: "Field", emoji: false)
-            Markdown(text: "*Cat*", verbatim: false)
+            PlainText(text: "Field")
+                .emoji(true)
+            Markdown(text: "*Cat*")
+                    .verbatim(false)
         }
         
         XCTAssertEncodedStructure(encodable: context, structure: [
@@ -38,7 +41,7 @@ final class ContextTests: XCTestCase {
                 [
                     "type": "plain_text",
                     "text": "Field",
-                    "emoji": false
+                    "emoji": true
                 ],
                 [
                     "type": "mrkdwn",

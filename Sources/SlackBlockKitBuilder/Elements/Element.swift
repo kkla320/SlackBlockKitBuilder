@@ -7,6 +7,6 @@
 
 import Foundation
 
-public protocol Element: Encodable {
-    var type: ElementType { get }
+public protocol Element: Encodable, WithType {
+    
 }

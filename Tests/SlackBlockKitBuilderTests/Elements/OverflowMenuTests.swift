@@ -9,9 +9,9 @@ import Foundation
 import XCTest
 import SlackBlockKitBuilder
 
-final class OverflowMenuTests: XCTestCase {
+final class OverflowTests: XCTestCase {
     func testOverflowMenu() {
-        let overflowMenu = OverflowMenu(actionId: "text1234") {
+        let overflowMenu = Overflow(actionId: "text1234") {
             Option(value: "value-0") {
                 PlainText(text: "Text")
             }

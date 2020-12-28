@@ -7,21 +7,21 @@
 
 import Foundation
 
-public struct MultiUsersSelectMenu: Element {
+public struct MultiUsersSelect {
     private var placeholder: PlainText
     private var actionId: String
-    private var initialUsers: [String]?
-    private var maxSelectedItems: Int?
+    var initialUsers: [String]?
+    var maxSelectedItems: Int?
     
+    public init(actionId: String, placeholder: () -> PlainText) {
+        self.actionId = actionId
+        self.placeholder = placeholder()
+    }
+}
+
+extension MultiUsersSelect: Element {
     public var type: ElementType {
         return .multiUsersSelectMenu
-    }
-    
-    public init(actionId: String, initialUsers: [String]? = nil, maxSelectedItems: Int? = nil, placeholder: () -> PlainText) {
-        self.actionId = actionId
-        self.initialUsers = initialUsers
-        self.maxSelectedItems = maxSelectedItems
-        self.placeholder = placeholder()
     }
     
     public func encode(to encoder: Encoder) throws {
@@ -40,6 +40,16 @@ public struct MultiUsersSelectMenu: Element {
         case actionId = "action_id"
         case initialUsers = "initial_users"
         case maxSelectedItems = "max_selected_items"
+    }
+}
+
+extension MultiUsersSelect: Changeable {
+    public func initialUsers(_ value: [String]) -> MultiUsersSelect {
+        return self.changing { $0.initialUsers = value }
+    }
+    
+    public func maxSelectedItems(_ value: Int) -> MultiUsersSelect {
+        return self.changing { $0.maxSelectedItems = value }
     }
 }
 

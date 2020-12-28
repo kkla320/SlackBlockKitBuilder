@@ -7,17 +7,18 @@
 
 import Foundation
 
-public struct Markdown: TextObject {
+public struct Markdown {
     private var text: String
-    private var verbatim: Bool
+    var verbatim: Bool?
     
+    public init(text: String) {
+        self.text = text
+    }
+}
+
+extension Markdown: TextObject {
     public var type: ElementType {
         return .markdown
-    }
-    
-    public init(text: String, verbatim: Bool) {
-        self.text = text
-        self.verbatim = verbatim
     }
     
     public func encode(to encoder: Encoder) throws {
@@ -32,6 +33,12 @@ public struct Markdown: TextObject {
         case type
         case text
         case verbatim
+    }
+}
+
+extension Markdown: Changeable {
+    public func verbatim(_ value: Bool) -> Markdown {
+        return self.changing { $0.verbatim = value }
     }
 }
 
