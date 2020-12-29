@@ -7,6 +7,9 @@
 
 import Foundation
 
+/**
+ A content divider to split up different blocks inside of a message.
+ */
 public struct Divider {
     public internal(set) var blockId: String?
     

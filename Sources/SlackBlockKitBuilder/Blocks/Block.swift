@@ -7,6 +7,9 @@
 
 import Foundation
 
+/**
+ A base protocol for all blocks. Blocks are a series of components that can be combined to create visually rich and compellingly interactive messages.
+ */
 public protocol Block: Encodable, WithType {
     var blockId: String? { get }
     

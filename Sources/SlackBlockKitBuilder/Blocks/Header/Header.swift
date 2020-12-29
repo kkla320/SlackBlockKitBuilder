@@ -7,6 +7,9 @@
 
 import Foundation
 
+/**
+ A header is a plain-text block that displays in a larger, bold font. Use it to delineate between different groups of content in your app's surfaces.
+ */
 public struct Header {
     public internal(set) var blockId: String?
     private var text: PlainText

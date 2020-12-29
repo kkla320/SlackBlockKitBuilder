@@ -7,6 +7,9 @@
 
 import Foundation
 
+/**
+ A container for a list of blocks.
+ */
 public struct Message: Encodable {
     private var blocks: [Block]
     

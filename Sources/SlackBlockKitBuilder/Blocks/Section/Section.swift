@@ -7,6 +7,9 @@
 
 import Foundation
 
+/**
+ A section is one of the most flexible blocks available - it can be used as a simple text block, in combination with text fields, or side-by-side with any of the available block elements.
+ */
 public struct Section {
     public internal(set) var blockId: String?
     private var text: TextObject?

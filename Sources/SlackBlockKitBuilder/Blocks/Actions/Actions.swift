@@ -7,6 +7,9 @@
 
 import Foundation
 
+/**
+ A block that is used to hold interactive elements.
+ */
 public struct Actions {
     public internal(set) var blockId: String?
     private var elements: [Element]

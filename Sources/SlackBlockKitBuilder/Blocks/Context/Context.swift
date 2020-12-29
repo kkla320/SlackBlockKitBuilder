@@ -7,6 +7,9 @@
 
 import Foundation
 
+/**
+ Displays message context, which can include both images and text.
+ */
 public struct Context {
     public internal(set) var blockId: String?
     private var elements: [ContextElement]
