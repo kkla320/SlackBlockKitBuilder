@@ -26,7 +26,7 @@ extension Markdown: TextObject {
         
         try container.encode(type, forKey: .type)
         try container.encode(text, forKey: .text)
-        try container.encode(verbatim, forKey: .verbatim)
+        try container.encodeIfPresent(verbatim, forKey: .verbatim)
     }
     
     enum CodingKeys: CodingKey {
